@@ -1,19 +1,5 @@
 import numpy as np
 
-tmp=np.zeros((9,), dtype=np.int64)
-
-# tmp=[0,0,0,0,0,0,0,0,0]
-# print(tmp) 
-# tmp[0]=1
-# tmp[4]=2
-# for index,item in enumerate(tmp):
-#     # print(f'{index} : {item}')
-#     print(f"{index+1 if tmp[index] == 0 else ('O' if tmp[index]== 1 else 'X')}", end="")
-#     if (index+1)%3 == 0:
-#         print("\n---------")
-#     else :
-#         print(" | ", end="")
-
 def display_board(board, playerMap):
     for index,item in enumerate(board):
         # print(f'{index} : {item}')
@@ -40,18 +26,19 @@ def player_input():
 
 def place_marker(board,marker,playerMap):
     print(f'player{marker} start to select: ')
-    choice = ''
-    while choice not in ['1','2','3','4','5','6','7','8','9']:
+    endSelect = False
+    while endSelect == False:
         choice = input('Which position do you want to choose?(1-9) ')
+        # 當輸入的數字不屬於1~9, 提示使用者重新輸入
         if choice not in ['1','2','3','4','5','6','7','8','9']:
-            clear_output()
             print("Sorry, there is no position which you chose. Please try again.")
-        
-        # TODO The selected position is occupied, please reselect
-
-        if choice in ['1','2','3','4','5','6','7','8','9']:
+        # 當選擇的欄位不為0的時候, 代表選擇的欄位已經被填過
+        elif board[int(choice)-1] != 0:
+            print(f"Sorry, position {choice} has already been placed")
+        else:
             board[int(choice)-1] = marker
             display_board(board,playerMap)
+            endSelect = True
 
 # TODO check the right game over decision logic
 def checkBoardIsOver(board):
@@ -81,6 +68,8 @@ if __name__ == "__main__":
     roundStep = 0
 
     while gameIsOver == False:    
+        print(f'------- Round Step {roundStep+1} -------')
+
         # currentPlayer:
         # player1: 0,2,4,6,8,10 ... 
         # player2: 1,3,5,7,9 ...
@@ -96,7 +85,6 @@ if __name__ == "__main__":
         roundStep = roundStep+1
 
         # check if the game is over: winner and draw
-        print(f'####### {checkBoardIsOver(game_board)} ######')
         if checkBoardIsOver(game_board):
             gameIsOver = True
 
