@@ -40,15 +40,24 @@ def place_marker(board,marker,playerMap):
             display_board(board,playerMap)
             endSelect = True
 
-# TODO check the right game over decision logic
+# check the right game over decision logic
+# 0 => draw, 1 => playerMap[1] win, 2 => playerMap[2] win
 def checkBoardIsOver(board):
     # 檢查board裡面沒有0 -> 每個位置都被玩家選曲 -> 終止
     if (0 in board) == False:
-        return True
-    else:
-        return False
-    # 判斷勝利條件
+        return 0
+    # 判斷勝利條件 
+    # [0,1,2],[3,4,5],[6,7,8] 
+    # [0,3,6],[1,4,7],[2,5,8]
+    # [0,4,8],[2,4,6]
 
+    for player in range(1,3):
+        if (board[0]==player and board[1]==player and board[2]==player) or (board[3]==player and board[4]==player and board[5]==player) or (board[6]==player and board[7]==player and board[8]==player) :
+            return player
+        if (board[0]==player and board[3]==player and board[6]==player) or (board[1]==player and board[4]==player and board[7]==player) or (board[2]==player and board[5]==player and board[8]==player) :
+            return player
+        if (board[0]==player and board[4]==player and board[8]==player) or (board[2]==player and board[4]==player and board[6]==player) :
+            return player
 
 if __name__ == "__main__":
     # init game board
@@ -85,6 +94,11 @@ if __name__ == "__main__":
         roundStep = roundStep+1
 
         # check if the game is over: winner and draw
-        if checkBoardIsOver(game_board):
+
+        if checkBoardIsOver(game_board) == 0 :
             gameIsOver = True
+            print(f'DRAW!!!')
+        elif checkBoardIsOver(game_board) == 1 or checkBoardIsOver(game_board) == 2:
+            gameIsOver = True
+            print(f'{playerMap[checkBoardIsOver(game_board)]} is winner!!!')
 
