@@ -47,13 +47,16 @@ def checkBoardIsOver(board):
     # [0,1,2],[3,4,5],[6,7,8] 
     # [0,3,6],[1,4,7],[2,5,8]
     # [0,4,8],[2,4,6]
-    for player in range(1,3):
-        if (board[0]==player and board[1]==player and board[2]==player) or (board[3]==player and board[4]==player and board[5]==player) or (board[6]==player and board[7]==player and board[8]==player) :
-            return player
-        if (board[0]==player and board[3]==player and board[6]==player) or (board[1]==player and board[4]==player and board[7]==player) or (board[2]==player and board[5]==player and board[8]==player) :
-            return player
-        if (board[0]==player and board[4]==player and board[8]==player) or (board[2]==player and board[4]==player and board[6]==player) :
-            return player
+    for player in [1,2]:
+        for check in [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]]:
+            if board[check[0]] == player and board[check[1]] == player and board[check[2]] == player:
+                return player
+        # if (board[0]==player and board[1]==player and board[2]==player) or (board[3]==player and board[4]==player and board[5]==player) or (board[6]==player and board[7]==player and board[8]==player) :
+        #     return player
+        # if (board[0]==player and board[3]==player and board[6]==player) or (board[1]==player and board[4]==player and board[7]==player) or (board[2]==player and board[5]==player and board[8]==player) :
+        #     return player
+        # if (board[0]==player and board[4]==player and board[8]==player) or (board[2]==player and board[4]==player and board[6]==player) :
+        #     return player
 
     # 檢查board裡面沒有0 -> 每個位置都被玩家選曲 -> 終止
     if (0 in board) == False:
